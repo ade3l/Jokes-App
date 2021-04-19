@@ -1,6 +1,8 @@
 package com.example.jokesapp;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,6 +11,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     List<String> setups=new ArrayList<>(),punchlines=new ArrayList<>();
     RecyclerView recycler;
     private Context context;
+    FloatingActionButton refreshButton ;
     private Context getAppContext(){
         return context;
     }
@@ -39,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
+            refreshButton.setClickable(false);
             String result = "";
             try {
                 URL url=new URL(strings[0]);
@@ -66,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            setups.clear();punchlines.clear();
             try {
                 JSONArray data=new JSONArray(s);
                 for(int i=0;i<data.length();i++){
@@ -88,14 +97,24 @@ public class MainActivity extends AppCompatActivity {
         MyAdapter adapter=new MyAdapter(getAppContext(),setups,punchlines);
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(this));
+        refreshButton.setClickable(true);
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         recycler=findViewById(R.id.recycler);
         context=this;
+        refreshButton = findViewById(R.id.refresh);
         View view = null;
         genJoke(view);
+
+
+
     }
 }
