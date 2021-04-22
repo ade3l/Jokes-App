@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     List<String> setups=new ArrayList<>(),punchlines=new ArrayList<>();
     RecyclerView recycler;
+
     private Context context;
     FloatingActionButton refreshButton ;
     private Context getAppContext(){
@@ -87,17 +89,31 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            setList();        }
+            setList();
+
+        }
 
 
 
 
     }
     void setList(){
-        MyAdapter adapter=new MyAdapter(getAppContext(),setups,punchlines);
-        recycler.setAdapter(adapter);
-        recycler.setLayoutManager(new LinearLayoutManager(this));
-        refreshButton.setClickable(true);
+        recycler.animate().translationXBy(1500).setDuration(1000);
+        recycler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recycler.setX(0);
+                MyAdapter adapter=new MyAdapter(getAppContext(),setups,punchlines);
+                recycler.setAdapter(adapter);
+                recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                recycler.setX(-1500);
+                recycler.animate().translationXBy(1500).setDuration(1000);
+                refreshButton.setClickable(true);
+            }
+        },1000);
+
+
+//        recycler.animate().translationX(+2000).setDuration(1000);
 
     }
     @Override
