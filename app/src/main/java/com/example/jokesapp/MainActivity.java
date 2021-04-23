@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private Context getAppContext(){
         return context;
     }
-    public void genJoke(View view){
+    public void genJoke(){
         apiGetter task=new apiGetter();
         task.execute("https://official-joke-api.appspot.com/random_ten");
     }
@@ -92,8 +92,9 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            setList();
-
+            if(is_first_set) {
+                setList();
+            }
         }
 
 
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, anim_time);
         }
+        genJoke();
 
 
 //        recycler.animate().translationX(+2000).setDuration(1000);
@@ -140,7 +142,8 @@ public class MainActivity extends AppCompatActivity {
         context=this;
         refreshButton = findViewById(R.id.refresh);
         View view = null;
-        genJoke(view);
+        genJoke();
+
          swipeRefreshLayout=findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -148,8 +151,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onRefresh() {
                         Log.i("LOG_TAG", "onRefresh called from SwipeRefreshLayout");
 
-                        View view = null;
-                        genJoke(view);
+
+                        setList();
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 }
