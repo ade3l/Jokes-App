@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -33,6 +34,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     List<String> setups=new ArrayList<>(),punchlines=new ArrayList<>();
     RecyclerView recycler;
+    SwipeRefreshLayout swipeRefreshLayout;
+    Boolean is_first_set;
 
     private Context context;
     FloatingActionButton refreshButton ;
@@ -98,19 +101,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
     void setList(){
-        recycler.animate().translationXBy(1500).setDuration(1000);
-        recycler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                recycler.setX(0);
-                MyAdapter adapter=new MyAdapter(getAppContext(),setups,punchlines);
-                recycler.setAdapter(adapter);
-                recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                recycler.setX(-1500);
-                recycler.animate().translationXBy(1500).setDuration(1000);
-                refreshButton.setClickable(true);
-            }
-        },1000);
+        int anim_time=500;
+        if(is_first_set){
+            MyAdapter adapter=new MyAdapter(getAppContext(),setups,punchlines);
+            recycler.setAdapter(adapter);
+            recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            is_first_set=false;
+        }
+        else {
+            recycler.animate().translationXBy(1500).setDuration(500);
+            recycler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    recycler.setX(0);
+                    MyAdapter adapter = new MyAdapter(getAppContext(), setups, punchlines);
+                    recycler.setAdapter(adapter);
+                    recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    recycler.setX(-1500);
+                    recycler.animate().translationXBy(1500).setDuration(anim_time);
+                    refreshButton.setClickable(true);
+                }
+            }, anim_time);
+        }
 
 
 //        recycler.animate().translationX(+2000).setDuration(1000);
@@ -123,14 +135,26 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        is_first_set=true;
         recycler=findViewById(R.id.recycler);
         context=this;
         refreshButton = findViewById(R.id.refresh);
         View view = null;
         genJoke(view);
+         swipeRefreshLayout=findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        Log.i("LOG_TAG", "onRefresh called from SwipeRefreshLayout");
 
-
-
+                        View view = null;
+                        genJoke(view);
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }
+        );
     }
+
+
 }
