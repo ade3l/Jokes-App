@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    android:layout_margin="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+
     >
 
     <androidx.cardview.widget.CardView
@@ -23,7 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:padding="5dp"
+            >
 
             <TextView
                 android:id="@+id/setup"
@@ -32,11 +35,12 @@
 
                 android:text="TextView"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:paddingLeft="5dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -46,10 +50,9 @@
                     android:layout_gravity="center_vertical"
 
                     android:layout_weight="1"
+                    android:paddingLeft="5dp"
                     android:text="TextView"
-                    android:textSize="16sp"
-                    />
-
+                    android:textSize="16sp" />
 
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -65,8 +68,7 @@
                     app:backgroundTint="@color/white"
                     app:elevation="0dp"
                     app:fabSize="mini"
-                    app:srcCompat="?attr/actionModeCopyDrawable"
-                    />
+                    app:srcCompat="?attr/actionModeCopyDrawable" />
 
             </LinearLayout>
 
