@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
             data_changed=true;
             if(is_first_set||waiting) {
+                data_changed=true;
                 setList();
             }
         }
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         int anim_time=500;
         if (data_changed) {
             data_changed = false;
+            is_first_set = false;
             if (is_first_set) {
                 is_first_set = false;
                 MyAdapter adapter = new MyAdapter(getAppContext(), setups, punchlines);
