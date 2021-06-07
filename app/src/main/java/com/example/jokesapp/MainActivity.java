@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 is_first_set = false;
                 MyAdapter adapter = new MyAdapter(getAppContext(), setups, punchlines);
                 recycler.setAdapter(adapter);
-                recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                recycler.setLayoutManager(new LinearLayoutManager(getAppContext()));
                 recycler.setX(-1500);
                 recycler.animate().translationXBy(1500).setDuration(anim_time);
             } else {
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                     recycler.setX(0);
                     MyAdapter adapter = new MyAdapter(getAppContext(), setups, punchlines);
                     recycler.setAdapter(adapter);
-                    recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    recycler.setLayoutManager(new LinearLayoutManager(getAppContext()));
                     recycler.setX(-1500);
                     recycler.animate().translationXBy(1500).setDuration(anim_time);
 
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         is_first_set=true;
         waiting=false;
         recycler=findViewById(R.id.recycler);
-        context=this;
+        context=MainActivity.this;
         genJoke();
 
          swipeRefreshLayout=findViewById(R.id.swiperefresh);
